@@ -12,5 +12,21 @@ warnings: false
 ---
 
 ```{python}
+# Cargamos datos
 
+import pandas as pd
+
+namesIris = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'class']
+irisData = pd.read_csv('iris/iris.data', header=None, names=namesIris)
+
+namesWine = ['class', 'alcohol', 'malic_acid', 'ash', 'alcalinity_of_ash', 'magnesium', 'total_phenols', 'flavanoids', 'nonflavanoid_phenols', 'proanthocyanins', 'color_intensity', 'hue', 'OD280/OD315_of_diluted_wines', 'proline']
+wineData = pd.read_csv('wine/wine.data', header=None, names=namesWine)
+
+namesBreastCancer = ['class', 'age', 'menopause', 'tumor_size', 'inv_nodes', 'node_caps', 'deg_malig', 'breast', 'breast_quad', 'irradiat']
+breastCancerData = pd.read_csv('breast+cancer/breast-cancer.data', header=None, names=namesBreastCancer)
+
+```
+
+```{python}
+irisData
 ```
