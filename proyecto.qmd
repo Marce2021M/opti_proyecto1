@@ -1,0 +1,16 @@
+---
+title: "OPTI- Proyecto 1"
+lang: es
+author: 
+  - Marcelino Sánchez Rodríguez 191654
+date: today
+format:
+  pdf:
+    latex_engine: xelatex
+message: false
+warnings: false
+---
+
+```{python}
+
+```
