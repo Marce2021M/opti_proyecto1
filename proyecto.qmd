@@ -16,17 +16,23 @@ warnings: false
 
 import pandas as pd
 
-namesIris = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'class']
-irisData = pd.read_csv('iris/iris.data', header=None, names=namesIris)
-
-namesWine = ['class', 'alcohol', 'malic_acid', 'ash', 'alcalinity_of_ash', 'magnesium', 'total_phenols', 'flavanoids', 'nonflavanoid_phenols', 'proanthocyanins', 'color_intensity', 'hue', 'OD280/OD315_of_diluted_wines', 'proline']
-wineData = pd.read_csv('wine/wine.data', header=None, names=namesWine)
-
 namesBreastCancer = ['class', 'age', 'menopause', 'tumor_size', 'inv_nodes', 'node_caps', 'deg_malig', 'breast', 'breast_quad', 'irradiat']
 breastCancerData = pd.read_csv('breast+cancer/breast-cancer.data', header=None, names=namesBreastCancer)
 
+target = breastCancerData['class']
+
+# quitamos target
+breastCancerData = breastCancerData.drop('class', axis=1)
+
+# convertimos a numéricas todas las variables categóricas (haciéndolas dummies)
+encoded_columns = pd.get_dummies(breastCancerData.drop('deg_malig', axis=1), drop_first=True).astype(int)
+
+breastCancerData = pd.concat([breastCancerData['deg_malig'], encoded_columns], axis=1)
 ```
 
 ```{python}
-irisData
+
+#Solución del problema de optimización
+#w, μ, iterN = qp_intpoint(Q, F, c, d)
+
 ```
