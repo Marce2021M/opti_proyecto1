@@ -38,13 +38,10 @@ def separa(x_, y_):
     Q = np.eye(cols+1)
     Q[cols,cols] = 0
     c = np.zeros((cols+1,1))
-
-    print(F.shape, d.shape, Q.shape, c.shape)
     # regresamos la solucion
     return qp_intpoint(Q, c, F, d)
 
 def obten_cuantos_cumplen(M_, B_):
-    M_, B_ = obten_M_B(x_test_scaled_reset, y_test_reset)
     values_M = np.dot(M_, w_scaled) + b_scaled
     values_B = np.dot(B_, w_scaled) + b_scaled
 
@@ -76,6 +73,28 @@ def obten_metricas(comply_M, not_comply_M, comply_B, not_comply_B):
     F1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
     return accuracy, precision, recall, F1
     
+def grafica_resultados(M_, B_, tipo):
+    values_M = np.dot(M_, w_scaled) + b_scaled
+    values_B = np.dot(B_, w_scaled) + b_scaled
+
+    indices_M = np.arange(1, len(values_M) + 1)
+    indices_B = np.arange(1, len(values_B) + 1)
+
+    # Plotting
+    plt.figure(figsize=(10, 6))
+
+    # Plot for matrix M
+    plt.scatter(indices_M, values_M, color='blue', label='w*x + b (para M)')
+
+    # Plot for matrix B
+    plt.scatter(indices_B, values_B, color='red', label='w*x + b (para B)')
+
+    plt.title(f'Separacion de los conjuntos ({tipo})')
+    plt.xlabel('ID de x')
+    plt.ylabel('Valor w*x + b')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 breast_cancer_wisconsin_diagnostic = fetch_ucirepo(id=17)
 x = breast_cancer_wisconsin_diagnostic.data.features
@@ -105,7 +124,7 @@ values_B_train = np.dot(B_train, w_scaled) + b_scaled
 assert np.all(values_M_train + 1 <= 1e-4), "No todos los valores M son menores a -1"
 # checa que los B sean mayores a a
 assert np.all(values_B_train - 1 >= -1e-4), "No todos los valores son mayores a 1"
-print("Los valores cumplen las restricciones")
+print("Los valores de entrenamiento cumplen las restricciones")
 
 #### Ahora probamos el conjunto de prueba
 x_test_scaled = scaler.transform(x_test)
@@ -128,3 +147,7 @@ print(f"Accuracy: {accuracy:.4f}")
 print(f"Precision: {precision:.4f}")
 print(f"Recall: {recall:.4f}")
 print(f"F1 Score: {F1:.4f}")
+
+## Graficamos los resultados 
+grafica_resultados(M_train, B_train, tipo="entrenamiento")
+grafica_resultados(M_test, B_test, tipo="prueba")

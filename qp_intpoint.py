@@ -65,6 +65,6 @@ def qp_intpoint(Q, c, F, d, iter = 100, tol = 1e-5, decreasing_factor = 0.5, sta
         current_F = FNewton(v)
         it += 1
         decreasing_factor *= 1/2
-        if(it%20==0):
-          print(it, np.linalg.norm(current_F.flatten()))
+        # if(it%20==0):
+        #   print(it, np.linalg.norm(current_F.flatten()))
     return v[0:n, :], v[n+m:n+2*m, :], it
