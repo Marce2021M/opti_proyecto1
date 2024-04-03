@@ -9,7 +9,7 @@ import numpy as np
     # x vector soluci ́on del problema
     # μ multiplicador de Lagrange
     # iter n ́umero de iteraciones
-def qp_intpoint(Q, F, c, d, iter = 100, tol = 1e-5, decreasing_factor = 0.5):
+def qp_intpoint(Q, c, F, d, iter = 100, tol = 1e-5, decreasing_factor = 0.5):
     m, n = F.shape
     # v represents vector of all variables [x, z, mu]
     # the initial guess must have z, mu > 0
@@ -37,7 +37,7 @@ def qp_intpoint(Q, F, c, d, iter = 100, tol = 1e-5, decreasing_factor = 0.5):
     
     def get_delta_v(v_k, F_vk):
         J = Jacobian_FNewton(v_k)
-        adjustedF = current_F
+        adjustedF = F_vk
         adjustedJ = J
         z = v_k[n: n+m, :].flatten()
         ZInv = np.diag(1/z)
@@ -62,3 +62,21 @@ def qp_intpoint(Q, F, c, d, iter = 100, tol = 1e-5, decreasing_factor = 0.5):
         it += 1
         decreasing_factor *= 1/2
     return v[0:n, :], v[n+m:n+2*m, :], it
+
+n = 2
+# We generate Q so that it is positive definite
+Q = np.eye(n)
+# Q = np.random.rand(n, n)
+# V, R = np.linalg.qr(Q)
+# Q = R.T @ R
+
+#c = np.random.randn(n, 1)
+c = np.zeros((n, 1))
+#A = np.random.rand(m, n)
+A = np.array([[-1,0], [0, -1], [1, 0], [0, 1]])
+b = np.array([[-1], [-1], [1], [1]])
+#print("F", F, "d", d)
+#print(Q, c, F, d)
+x = qp_intpoint(Q, c, A, b)
+#x = quadratic_interior_method(Q, c, A, b, np.zeros((1, n)), np.zeros((1,1)))
+print(x)
