@@ -13,7 +13,7 @@ def obten_M_B(x_, y_):
     z = pd.concat([x_, y_],axis = 1)
 
     rows = x_.shape[0]
-    cols = y_.shape[1]
+    cols = x_.shape[1]
 
     z = pd.concat([x_, y_], axis=1)
 
